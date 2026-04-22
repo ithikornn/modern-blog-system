@@ -11,6 +11,7 @@ interface Props {
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('th-TH', {
     year: 'numeric', month: 'long', day: 'numeric',
+    timeZone: 'Asia/Bangkok',
   });
 }
 

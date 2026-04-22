@@ -59,7 +59,7 @@ export default function BlogForm({ blog }: Props) {
 
     const newErrors = {
       title: validateBlogTitle(form.title),
-      slug: validateBlogSlug(form.slug),
+      slug: isEdit ? validateBlogSlug(form.slug) : '',
     };
     setErrors(newErrors);
     if (newErrors.title || newErrors.slug) return;
@@ -68,7 +68,9 @@ export default function BlogForm({ blog }: Props) {
     try {
       const fd = new FormData();
       fd.append('title', form.title);
-      fd.append('slug', form.slug);
+      if (isEdit) {
+        fd.append('slug', form.slug);
+      }
       fd.append('summary', form.summary);
       fd.append('content', form.content);
       newFiles.forEach((f) => fd.append('images', f));
@@ -119,27 +121,29 @@ export default function BlogForm({ blog }: Props) {
         {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title}</p>}
       </div>
 
-      {/* Slug */}
-      <div>
-        <label className="block text-sm font-medium text-slate-600 mb-1.5">
-          URL Slug <span className="text-red-400">*</span>
-        </label>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-slate-400 whitespace-nowrap">/blog/</span>
-          <input
-            type="text"
-            placeholder="url-slug"
-            value={form.slug}
-            onChange={(e) => setForm({ ...form, slug: e.target.value })}
-            className={`flex-1 px-4 py-2.5 bg-white border rounded-lg text-sm font-mono text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-all ${
-              errors.slug
-                ? 'border-red-300 focus:ring-red-400/20 focus:border-red-400'
-                : 'border-slate-200 focus:ring-blue-400/20 focus:border-blue-400'
-            }`}
-          />
+      {/* Slug (edit only) */}
+      {isEdit && (
+        <div>
+          <label className="block text-sm font-medium text-slate-600 mb-1.5">
+            URL Slug <span className="text-red-400">*</span>
+          </label>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-slate-400 whitespace-nowrap">/blog/</span>
+            <input
+              type="text"
+              placeholder="url-slug"
+              value={form.slug}
+              onChange={(e) => setForm({ ...form, slug: e.target.value })}
+              className={`flex-1 px-4 py-2.5 bg-white border rounded-lg text-sm font-mono text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-all ${
+                errors.slug
+                  ? 'border-red-300 focus:ring-red-400/20 focus:border-red-400'
+                  : 'border-slate-200 focus:ring-blue-400/20 focus:border-blue-400'
+              }`}
+            />
+          </div>
+          {errors.slug && <p className="text-xs text-red-500 mt-1">{errors.slug}</p>}
         </div>
-        {errors.slug && <p className="text-xs text-red-500 mt-1">{errors.slug}</p>}
-      </div>
+      )}
 
       {/* Summary */}
       <div>

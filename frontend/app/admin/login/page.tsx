@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
-import { setToken } from '@/lib/auth';
+import { isLoggedIn, setToken } from '@/lib/auth';
 import { validateLogin } from '@/lib/validators';
 
 export default function LoginPage() {
@@ -11,6 +11,12 @@ export default function LoginPage() {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [submitError, setSubmitError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (isLoggedIn()) {
+            router.replace('/admin/blogs');
+        }
+    }, [router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,16 +33,21 @@ export default function LoginPage() {
 
         try {
             const res = await api.post('/auth/login', form);
-            setToken(res.data.access_token);
+            const accessToken = res.data?.access_token ?? res.data?.accessToken ?? res.data?.token;
+
+            if (!accessToken) {
+                throw new Error('ไม่พบ access token จากระบบ');
+            }
+
+            setToken(accessToken);
             router.replace('/admin/blogs');
+            router.refresh();
         } catch (err: any) {
             setSubmitError(err.response?.data?.message ?? 'เกิดข้อผิดพลาด กรุณาลองใหม่');
         } finally {
             setLoading(false);
         }
     };
-
-    console.log('LoginPage rendered');
 
     return (
         <div className="min-h-screen flex">

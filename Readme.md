@@ -55,7 +55,7 @@ JWT_SECRET=your-super-secret-key-change-this
 JWT_EXPIRES_IN=7d
 
 ADMIN_USERNAME=admin
-ADMIN_PASSWORD=your-strong-password
+ADMIN_PASSWORD_HASH=your-strong-password
 
 PORT=5000
 ```

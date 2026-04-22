@@ -5,12 +5,13 @@ interface Props {
 }
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('th-TH', {
+  return new Date(dateStr).toLocaleString('th-TH', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
+    timeZone: 'Asia/Bangkok',
   });
 }
 

@@ -167,15 +167,21 @@ export class BlogsService {
 
   async generateUniqueSlug(title: string): Promise<string> {
     const isEnglish = /[a-zA-Z]/.test(title);
-    let base = isEnglish
+    const base = isEnglish
       ? title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
       : `blog-${Date.now()}`;
-
+ 
     let slug = base;
     let count = 1;
-    while (await this.blogRepo.findOneBy({ slug })) {
+    const MAX_ATTEMPTS = 20;
+ 
+    while (count <= MAX_ATTEMPTS) {
+      const exists = await this.blogRepo.findOneBy({ slug });
+      if (!exists) return slug;
       slug = `${base}-${++count}`;
     }
-    return slug;
+ 
+    // fallback: ต่อ timestamp เพื่อให้แน่ใจ unique
+    return `${base}-${Date.now()}`;
   }
 }
