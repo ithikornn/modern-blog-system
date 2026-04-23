@@ -7,6 +7,7 @@ import { Blog } from '@/types/blog';
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('th-TH', {
     year: 'numeric', month: 'short', day: 'numeric',
+    timeZone: 'Asia/Bangkok',
   });
 }
 

@@ -7,6 +7,7 @@ import {
   import { UpdateCommentStatusDto } from './dto/update-comment-status.dto';
   import { CommentStatus } from './entities/comment.entity';
   import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Throttle } from '@nestjs/throttler/dist/throttler.decorator';
   
   @Controller()
   export class CommentsController {
@@ -15,6 +16,7 @@ import {
     // ─── Public ──────────────────────────────────────────────
   
     @Post('blogs/:id/comments')
+    @Throttle({ default: { limit: 5, ttl: 60_000 } })
     create(
       @Param('id', ParseIntPipe) blogId: number,
       @Body() dto: CreateCommentDto,

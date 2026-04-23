@@ -55,7 +55,7 @@ JWT_SECRET=your-super-secret-key-change-this
 JWT_EXPIRES_IN=7d
 
 ADMIN_USERNAME=admin
-ADMIN_PASSWORD=your-strong-password
+ADMIN_PASSWORD_HASH=your-strong-password
 
 PORT=5000
 ```
@@ -100,10 +100,10 @@ Application is running on: http://localhost:5000
 
 ```bash
 cd ../frontend
-cp .env.example .env.local
+cp .env.example .env
 ```
 
-แก้ไขไฟล์ `.env.local`
+แก้ไขไฟล์ `.env`
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
