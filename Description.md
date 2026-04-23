@@ -91,7 +91,7 @@ blogs ──< comments      (one-to-many, CASCADE DELETE)
 | status | enum | `pending` / `approved` / `rejected` (default: pending) |
 | created_at | timestamp | Auto |
 
-> DBML สำหรับ dbdiagram.io อยู่ที่ไฟล์ `dbdiagram.dbml`
+![Database Schema](./database_schema.png)
 
 ---
 

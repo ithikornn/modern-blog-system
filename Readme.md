@@ -100,10 +100,10 @@ Application is running on: http://localhost:5000
 
 ```bash
 cd ../frontend
-cp .env.example .env.local
+cp .env.example .env
 ```
 
-แก้ไขไฟล์ `.env.local`
+แก้ไขไฟล์ `.env`
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
